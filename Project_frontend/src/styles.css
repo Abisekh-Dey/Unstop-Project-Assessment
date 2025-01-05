@@ -1,0 +1,13 @@
+body {
+    background-color: antiquewhite; 
+  }
+  
+  h2 {
+    font-weight: bold;
+    color: #343a40; 
+  }
+  
+  .card {
+    border-radius: 10px; 
+  }
+  

@@ -1,0 +1,115 @@
+<div class="container mt-4 mb-5">
+  <h2 class="text-center mb-4">Hotel Room Availability</h2>
+
+  <div class="card p-4 shadow">
+
+    <nav>
+      <div class="d-flex mb-4 nav">
+        <button class="btn btn-secondary" id="b1">
+          No of Rooms: {{getTotalRooms()}}
+        </button>
+  
+        <button class="btn btn-primary" id="b2" [routerLink]="['/book']">
+          Book
+        </button>
+  
+        <button class="btn btn-warning" id="b3" (click)="resetRooms()">
+          Reset
+        </button>
+  
+        <button class="btn btn-info" id="b4"  (click)="generateRandomOccupancy()">
+          Random
+        </button>
+      </div>
+    </nav>
+
+    <div class="mb-4 d-flex justify-content-center align-items-center nav">
+      <div class="status-box bg-success"></div>
+      <p class="m-0 mx-2 p">Available Rooms: {{updated}}</p>
+      <div class="status-box bg-danger"></div>
+      <p class="m-0 mx-2 p">Booked Rooms: {{booked}}</p>
+    </div>
+
+    <div class="d-flex">
+      <div class="bg-warning text-white d-flex align-items-center justify-content-center mb-4 lift">
+        <h4 style="color: blue;">Lift/Staircase</h4>
+      </div>
+    
+      <div class="flex-grow-1" style="width: 80%;">
+        <div *ngFor="let floor of reversedFloors; let floorIndex = index" class="mb-4">
+          <div class="row">
+            <div class="col-2 floor-div">
+              <h4>Floor {{ reversedFloors.length - floorIndex }}</h4>
+            </div>
+            <div class="col-10">
+              <div class="row">
+                <div
+                  *ngFor="let room of floor.rooms; let roomIndex = index"
+                  class="col-1 p-1 d-flex justify-content-center"
+                >
+                  <div
+                    class="room-box d-flex justify-content-center align-items-center"
+                    [ngClass]="{
+                      'bg-success': !room.isBooked,
+                      'bg-danger': room.isBooked
+                    }"
+                    [ngStyle]="{
+                      'pointer-events': room.isBooked ? 'none' : 'auto'
+                    }"
+                  >
+                    <span class="room-number">{{ room.number }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-danger w-100" id="b5" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete All Bookings From Database</button>
+    
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Bookings</h1>
+        @if(!status){
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        }
+        @else {
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="reset()"></button>
+        }
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <ng-container *ngIf="!status; else successMessage">
+            <p *ngIf="!noBookingsMessage">Are you sure to delete all booking records?</p>
+            <p *ngIf="noBookingsMessage">{{ noBookingsMessage }}</p>
+          </ng-container>
+          <ng-template #successMessage>
+            <p>Booking records deleted successfully.</p>
+          </ng-template>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        @if(!status && !noBookingsMessage){
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" (click)="deletebookings()">Delete</button>
+        }
+        @else {
+          @if(noBookingsMessage){
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="changeMessage()">Close</button>
+          }
+          @else {
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="reset()">Close</button>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

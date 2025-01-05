@@ -1,0 +1,48 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Book Rooms</h2>
+    <form (ngSubmit)="bookRooms()" class="card p-4 shadow">
+      <div class="mb-3">
+        <label for="guestName" class="form-label">Guest Name:</label>
+        <input type="text" id="guestName" [(ngModel)]="guestName" name="guestName" class="form-control" required/>
+      </div>
+  
+      <div class="mb-3">
+        <label for="numRooms" class="form-label">Number of Rooms:</label>
+        <input type="number" id="numRooms" [(ngModel)]="numRooms" name="numRooms" class="form-control" min="1" max="5" required/>
+      </div>
+  
+      <button type="submit" class="btn btn-primary w-100"  data-bs-toggle="modal" data-bs-target="#exampleModal">Book</button>
+    </form>
+  
+  </div>
+
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Booking Confirmation</h1>
+          @if(!status){
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          }
+          @else {
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" [routerLink]="['/rooms']"></button>
+          }
+        </div>
+        <div class="modal-body">
+          <p *ngIf="message">{{ message }}</p>
+        </div>
+        <div class="modal-footer">
+          @if(!status){
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Re-Enter Rooms</button>  
+          }
+          @else {
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" [routerLink]="['/rooms']">Close</button>
+            <button type="button" class="btn btn-success"  data-bs-dismiss="modal" [routerLink]="['/rooms']">See Booked Rooms</button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
